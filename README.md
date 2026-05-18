@@ -28,7 +28,7 @@ sudo apt install texlive-full fonts-noto-color-emoji poppler-utils
 
 | Package               | Purpose                          |
 |-----------------------|----------------------------------|
-| `texlive-full`        | XeLaTeX compiler                 |
+| `texlive-full`        | LuaLaTeX compiler                 |
 | `fonts-noto-color-emoji` | Emoji rendering in PDFs       |
 | `poppler-utils`       | `pdfunite` for merging chunks    |
 
@@ -54,7 +54,7 @@ pip install -r requirements.txt
 
 1. Open the chat in Telegram Desktop
 2. Click the three-dot menu → **Export chat history**
-3. Select **Both** (JSON & HTML)
+3. For format, select **Both** (JSON & HTML)
 4. Choose a destination folder
 
 ### Step 2: Run teleprinter
@@ -93,10 +93,10 @@ optional:
   --partner-name NAME   Display name for the other person when their name
                         is not available in the export. Defaults to their
                         user ID.
-  --compile             Run xelatex and pdfunite after generating .tex files.
+  --compile             Run lualatex and pdfunite after generating .tex files.
   --keep-tex            Keep intermediate .tex and per-chunk .pdf files.
   --chunk-size N        Messages per .tex file (default: 1000). Reduce if
-                        xelatex runs out of memory on very large chats.
+                        lualatex runs out of memory on very large chats.
   --output FILENAME     Final PDF filename inside TARGET (default: chat.pdf).
   --verbose, -v         Enable debug logging.
 ```
@@ -143,7 +143,7 @@ teleprinter/
 ├── processor.py      # converts messages into render-ready dicts
 ├── text.py           # LaTeX escaping, emoji wrapping, URL handling
 ├── renderer.py       # Jinja2 → .tex chunk files
-├── compiler.py       # xelatex + pdfunite
+├── compiler.py       # lualatex + pdfunite
 └── templates/
     └── document.tex.j2   # LaTeX document template
 ```
@@ -152,7 +152,7 @@ teleprinter/
 
 - **Large chats**: a 111 MB export with ~35 000 messages will process fine
   given enough RAM. The default chunk size of 1000 messages keeps each
-  xelatex run manageable. Lower it with `--chunk-size` if needed.
+  lualatex run manageable. Lower it with `--chunk-size` if needed.
 
 - **Emoji**: Emojis are rendered natively by lualatex as special characters. 
   For this, `fonts-noto-color-emoji` needs to be installed as a system font.
